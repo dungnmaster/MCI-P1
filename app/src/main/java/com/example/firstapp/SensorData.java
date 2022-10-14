@@ -29,6 +29,10 @@ public class SensorData {
     public SensorData() {
     }
 
+    public SensorData(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public Float getAcc_x() {
         return acc_x;
     }
@@ -109,7 +113,41 @@ public class SensorData {
         this.timestamp = timestamp;
     }
 
-//    String[] getDataForCSV() {
-//        String[] data = {timestamp.toString(), Objects.toString()}
-//    }
+    public void forwardFill(SensorData otherData) {
+        if(Objects.isNull(this.acc_x)) {
+            this.acc_x = otherData.getAcc_x();
+        }
+
+        if(Objects.isNull(this.acc_y)) {
+            this.acc_y = otherData.getAcc_y();
+        }
+
+        if(Objects.isNull(this.acc_z)) {
+            this.acc_z = otherData.getAcc_z();
+        }
+
+        if(Objects.isNull(this.gyro_x)) {
+            this.gyro_x = otherData.getGyro_x();
+        }
+
+        if(Objects.isNull(this.gyro_y)) {
+            this.gyro_y = otherData.getGyro_y();
+        }
+
+        if(Objects.isNull(this.mag_x)) {
+            this.mag_x = otherData.getMag_x();
+        }
+
+        if(Objects.isNull(this.mag_y)) {
+            this.mag_y = otherData.getMag_y();
+        }
+
+        if(Objects.isNull(this.mag_z)) {
+            this.mag_z = otherData.getMag_z();
+        }
+
+        if(Objects.isNull(this.lux)) {
+            this.lux = otherData.lux;
+        }
+    }
 }
