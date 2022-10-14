@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 33
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.example.firstapp"
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion 26
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -20,7 +20,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -31,4 +39,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation 'com.opencsv:opencsv:5.7.0'
 }
