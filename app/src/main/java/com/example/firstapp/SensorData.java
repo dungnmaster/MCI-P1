@@ -113,39 +113,60 @@ public class SensorData {
         this.timestamp = timestamp;
     }
 
+    public void merge(SensorData newData) {
+        if(Objects.nonNull(newData.acc_x)){
+            this.acc_x = newData.acc_x;
+        }
+        if(Objects.nonNull(newData.acc_y)){
+            this.acc_y = newData.acc_y;
+        }
+        if(Objects.nonNull(newData.acc_z)){
+            this.acc_z = newData.acc_z;
+        }
+        if(Objects.nonNull(newData.gyro_x)){
+            this.gyro_x = newData.gyro_x;
+        }
+        if(Objects.nonNull(newData.gyro_y)){
+            this.gyro_y = newData.gyro_y;
+        }
+        if(Objects.nonNull(newData.mag_x)){
+            this.mag_x = newData.mag_x;
+        }
+        if(Objects.nonNull(newData.mag_y)){
+            this.mag_y = newData.mag_y;
+        }
+        if(Objects.nonNull(newData.mag_z)){
+            this.mag_z = newData.mag_z;
+        }
+        if(Objects.nonNull(newData.lux)){
+            this.lux = newData.lux;
+        }
+    }
     public void forwardFill(SensorData otherData) {
         if(Objects.isNull(this.acc_x)) {
             this.acc_x = otherData.getAcc_x();
         }
-
         if(Objects.isNull(this.acc_y)) {
             this.acc_y = otherData.getAcc_y();
         }
-
         if(Objects.isNull(this.acc_z)) {
             this.acc_z = otherData.getAcc_z();
         }
-
         if(Objects.isNull(this.gyro_x)) {
             this.gyro_x = otherData.getGyro_x();
         }
-
         if(Objects.isNull(this.gyro_y)) {
             this.gyro_y = otherData.getGyro_y();
         }
-
         if(Objects.isNull(this.mag_x)) {
             this.mag_x = otherData.getMag_x();
         }
-
         if(Objects.isNull(this.mag_y)) {
             this.mag_y = otherData.getMag_y();
         }
-
         if(Objects.isNull(this.mag_z)) {
             this.mag_z = otherData.getMag_z();
         }
-
         if(Objects.isNull(this.lux)) {
             this.lux = otherData.lux;
         }

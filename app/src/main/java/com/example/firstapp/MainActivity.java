@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         for (SensorData currentData : data) {
             SensorData sensorData = mergedData.getOrDefault(currentData.getTimestamp(), currentData);
-            sensorData.forwardFill(currentData);
+            sensorData.merge(currentData);
             if(Objects.nonNull(lastKey) && mergedData.containsKey(lastKey) && !lastKey.equals(currentData.getTimestamp())) {
                 sensorData.forwardFill(mergedData.get(lastKey));
             }
