@@ -8,9 +8,10 @@
 
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="1dp">
@@ -20,44 +21,271 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sensor Recorder"
+            android:gravity="center"
             android:textAllCaps="false"
-            android:textSize="55sp" />
+            android:textSize="30sp"
+            android:layout_weight="3" />
 
-        <Button
-            android:id="@+id/btnClick"
+        <TableLayout
+            android:padding="5dp"
+            android:id="@+id/tableLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Click Me!"
-            android:visibility="invisible" />
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2" >
 
-        <Button
-            android:id="@+id/btnAcc"
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/accelXAttribute"
+                    android:text="Accel X"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:editable="false"
+                    android:id="@+id/accelXValue"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/accelYAttribute"
+                    android:text="Accel Y"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/accelYValue"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/accelZAttribute"
+                    android:text="Accel Z"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/accelZValue"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></EditText>
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/tableRow5"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"/>
+        </TableLayout>
+        <TableLayout
+            android:padding="5dp"
+            android:id="@+id/tableLayoutGyro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Acc"
-            android:visibility="invisible"
-            tools:visibility="invisible" />
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2">
 
-        <Button
-            android:id="@+id/recordStart"
+            <TableRow
+                android:id="@+id/tableRowGyroX"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/gyroXAttribute"
+                    android:text="Gyro X"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/gyroXValue"
+                    android:editable="false"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRowGyroY"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/gyroYAttribute"
+                    android:text="Gyro Y"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/gyroYValue"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"/>
+        </TableLayout>
+        <TableLayout
+            android:padding="5dp"
+            android:id="@+id/tableLayoutMag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rotationX="0"
-            android:text="Start Recording" />
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2">
 
-        <Button
-            android:id="@+id/recordEnd"
+            <TableRow
+                android:id="@+id/tableRowMagX"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/magXAttribute"
+                    android:text="Mag X"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/magXValue"
+                    android:editable="false"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRowMagY"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/magYAttribute"
+                    android:text="Mag Y"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/magYValue"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRowMagZ"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/magZAttribute"
+                    android:text="Mag Z"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/magZValue"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></EditText>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"/>
+        </TableLayout>
+        <TableLayout
+            android:padding="5dp"
+            android:id="@+id/tableLayoutLightIntensity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rotationX="0"
-            android:text="End Recording" />
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2">
 
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            <TableRow
+                android:id="@+id/tableRowLightIntensity"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/LightIntensityAttribute"
+                    android:text="Light Intensity"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"></TextView>
+                <EditText
+                    android:id="@+id/LightIntensityValue"
+                    android:editable="false"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                </EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"/>
+        </TableLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/button1"
+            android:layout_weight="2"
+            android:text="REC"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
