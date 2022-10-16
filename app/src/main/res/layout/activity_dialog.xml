@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/activityDialogHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Activity Metrics"
+            android:textSize="25sp"
+            android:layout_margin="10dp"
+            android:gravity="center" />
+        <LinearLayout
+            android:id="@+id/activityPickerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activityDialogHeading">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:id="@+id/buttonStage1"
+                android:text="Activity Picker" />
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/distanceEntryLayout"
+            android:layout_below="@id/activityPickerLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="Distance"
+                    android:textSize="15sp">
+                </TextView>
+
+                <EditText
+                    android:id="@+id/distanceTraversedField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:hint="Distance in cm">
+
+                </EditText>
+            </LinearLayout>
+        </RelativeLayout>
+        <Button
+            android:id="@+id/actvitySubmitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Submit"
+            android:layout_below="@+id/distanceEntryLayout">
+        </Button>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
