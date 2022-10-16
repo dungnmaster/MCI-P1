@@ -113,35 +113,36 @@ public class SensorData {
         this.timestamp = timestamp;
     }
 
-    public void merge(SensorData newData) {
+    public void merge(SensorData newData, Long count) {
         if(Objects.nonNull(newData.acc_x)){
-            this.acc_x = newData.acc_x;
+            this.acc_x = acc_x == null ? newData.acc_x : (acc_x*count+ newData.acc_x)/(count+1);
         }
         if(Objects.nonNull(newData.acc_y)){
-            this.acc_y = newData.acc_y;
+            this.acc_y = acc_y == null ? newData.acc_y : (acc_y*count+ newData.acc_y)/(count+1);
         }
         if(Objects.nonNull(newData.acc_z)){
-            this.acc_z = newData.acc_z;
+            this.acc_z = acc_z == null ? newData.acc_z : (acc_z*count+ newData.acc_z)/(count+1);
         }
         if(Objects.nonNull(newData.gyro_x)){
-            this.gyro_x = newData.gyro_x;
+            this.gyro_x = gyro_x == null ? newData.gyro_x : (gyro_x*count+ newData.gyro_x)/(count+1);
         }
         if(Objects.nonNull(newData.gyro_y)){
-            this.gyro_y = newData.gyro_y;
+            this.gyro_y = gyro_y == null ? newData.gyro_y : (gyro_y*count+ newData.gyro_y)/(count+1);
         }
         if(Objects.nonNull(newData.mag_x)){
-            this.mag_x = newData.mag_x;
+            this.mag_x = mag_x == null ? newData.mag_x : (mag_x*count+ newData.mag_x)/(count+1);
         }
         if(Objects.nonNull(newData.mag_y)){
-            this.mag_y = newData.mag_y;
+            this.mag_y = mag_y == null ? newData.mag_y : (mag_y*count+ newData.mag_y)/(count+1);
         }
         if(Objects.nonNull(newData.mag_z)){
-            this.mag_z = newData.mag_z;
+            this.mag_z = mag_z == null ? newData.mag_z : (mag_z*count+ newData.mag_z)/(count+1);
         }
         if(Objects.nonNull(newData.lux)){
-            this.lux = newData.lux;
+            this.lux = lux == null ? newData.lux : (lux*count+ newData.lux)/(count+1);
         }
     }
+
     public void forwardFill(SensorData otherData) {
         if(Objects.isNull(this.acc_x)) {
             this.acc_x = otherData.getAcc_x();

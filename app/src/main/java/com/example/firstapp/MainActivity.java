@@ -14,6 +14,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.SearchEvent;
 import android.view.View;
@@ -41,10 +42,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Boolean heading = true;
     private static Boolean recording = false;
     private static LocalDateTime recordingStartTime;
+    private static Long nanoStartTime;
     private static String selectedActivity = "IDLE";
     private static int distanceTraversedInCm = 0;
     private Long lastAccelSensorDisplayRefresh, lastGyroSensorDisplayRefresh;
@@ -201,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 // true if the switch is in the On position
                 if (isChecked) {
                     showCustomDialog();
-
                 }
                 else {
                     recording = false;
@@ -274,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 distanceTraversedInCm = Integer.parseInt(distanceTraversedFieldText);
                 recording = true;
                 recordingStartTime = LocalDateTime.now();
+                nanoStartTime = SystemClock.elapsedRealtimeNanos();
                 dialog.dismiss();
             }
         });
@@ -285,15 +289,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         List<String[]> csvData = new ArrayList<>();
         Long lastKey = null;
         Map<Long, SensorData> mergedData = new TreeMap<>();
+        Map<Long, Long> count = new TreeMap<>();
+        Set<Long> writtenKeys = new HashSet<>();
 
         for (SensorData currentData : data) {
-            SensorData sensorData = mergedData.getOrDefault(currentData.getTimestamp(), currentData);
-            sensorData.merge(currentData);
-            if(Objects.nonNull(lastKey) && mergedData.containsKey(lastKey) && !lastKey.equals(currentData.getTimestamp())) {
-                sensorData.forwardFill(mergedData.get(lastKey));
+            Long msTimeDiff = (currentData.getTimestamp() - nanoStartTime)/1000000;
+//            System.out.println("DIFF: "+msTimeDiff);;
+            if(!writtenKeys.contains(msTimeDiff)) {
+                Long sampleCount = count.getOrDefault(msTimeDiff, 0L);
+                SensorData sensorData = mergedData.getOrDefault(msTimeDiff, currentData);
+                sensorData.merge(currentData, sampleCount);
+                count.put(msTimeDiff, sampleCount+1);
+                if (Objects.nonNull(lastKey) && mergedData.containsKey(lastKey) && !lastKey.equals(msTimeDiff)) {
+                    sensorData.forwardFill(mergedData.get(lastKey));
+                }
+                lastKey = msTimeDiff;
+                mergedData.put(msTimeDiff, sensorData);
             }
-            lastKey = currentData.getTimestamp();
-            mergedData.put(currentData.getTimestamp(), sensorData);
         }
 
         if(useHeader) {
@@ -305,11 +317,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             ZonedDateTime zdt = ZonedDateTime.ofInstant ( instant , ZoneOffset.UTC );
             String time = DateTimeFormatter.ofPattern("HH:mm:ss:SSS").format(zdt);
 
-            String[] row = {Objects.toString(currentData.getTimestamp()), Objects.toString(currentData.getAcc_x()), Objects.toString(currentData.getAcc_y()),
+            String[] row = {Objects.toString(entry.getKey()), Objects.toString(currentData.getAcc_x()), Objects.toString(currentData.getAcc_y()),
                     Objects.toString(currentData.getAcc_z()), Objects.toString(currentData.getGyro_x()), Objects.toString(currentData.getGyro_y()),
                     Objects.toString(currentData.getMag_x()), Objects.toString(currentData.getMag_y()), Objects.toString(currentData.getMag_z()),
                     Objects.toString(currentData.getLux())};
             csvData.add(row);
+            writtenKeys.add(entry.getKey());
         }
 
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + filename);
