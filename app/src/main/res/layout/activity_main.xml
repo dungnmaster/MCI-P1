@@ -285,6 +285,16 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
+        <TextView
+        android:id="@+id/stepCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Step Count: "
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textSize="25sp"
+            android:layout_marginTop="30dp"
+        android:layout_weight="5" />
 
     </LinearLayout>
 

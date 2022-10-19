@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.opencsv.CSVWriter;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -73,10 +76,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static int distanceTraversedInCm = 0;
     private Long lastAccelSensorDisplayRefresh, lastGyroSensorDisplayRefresh;
     private Long lastMagSensoryDisplayRefresh, lastLightIntensitySensorDisplayRefresh;
+    private List<Pair<Long,Double>> accelerationPoints = new ArrayList<>();
 
     private TextView accelXTextView, accelYTextView, accelZTextView, gyroXTextView, gyroYTextView;
     private TextView magXTextView, magYTextView, magZTextView;
     private TextView lightIntensityTextView;
+    private TextView stepCountTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         scheduleWriterThread();
-
+        stepCountTextView.setVisibility(View.INVISIBLE);
     }
 
     private boolean shouldDisplaySensorValuesInUI(long currentTimeInMillis, Long lastSensorDisplayRefresh) {
@@ -195,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         magYTextView = (TextView) findViewById(R.id.magYValue);
         magZTextView = (TextView) findViewById(R.id.magZValue);
         lightIntensityTextView = (TextView) findViewById(R.id.LightIntensityValue);
+
+        stepCountTextView = (TextView) findViewById(R.id.stepCount);
     }
 
     private void registerButtons() {
@@ -208,6 +215,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
                 else {
                     recording = false;
+
+                    Integer count = StepCounter.getStepCount(accelerationPoints);
+                    String displayText = "Steps taken: "+count;
+                    stepCountTextView.setText(displayText);
+                    stepCountTextView.setVisibility(View.VISIBLE);
+                    accelerationPoints.clear();
                 }
             }
         });
@@ -278,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 recording = true;
                 recordingStartTime = LocalDateTime.now();
                 nanoStartTime = SystemClock.elapsedRealtimeNanos();
+                stepCountTextView.setVisibility(View.INVISIBLE);
                 dialog.dismiss();
             }
         });
@@ -322,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     Objects.toString(currentData.getMag_x()), Objects.toString(currentData.getMag_y()), Objects.toString(currentData.getMag_z()),
                     Objects.toString(currentData.getLux())};
             csvData.add(row);
+            addPoint(currentData, entry.getKey());
             writtenKeys.add(entry.getKey());
         }
 
@@ -377,5 +392,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         }).start();
+    }
+
+    private void addPoint(SensorData data, Long timestamp) {
+        if(data.getAcc_x() == null || data.getAcc_y() == null || data.getAcc_z() == null) {
+            return;
+        }
+        Double netAcc = Math.sqrt(Math.pow(data.getAcc_x(),2) + Math.pow(data.getAcc_y(),2) + Math.pow(data.getAcc_z(),2));
+        accelerationPoints.add(Pair.of(timestamp, netAcc));
     }
 }
